@@ -7,3 +7,9 @@ Puis lancer le client "Compass" > Connexion (c'est automatique)
 ## Jeu de données
 
 Généré depuis [Mockaroo](https://www.mockaroo.com/) et importé dans compass.
+
+## Mise en place
+
+On part de [express-generator](https://expressjs.com/fr/starter/generator.html) > pug & sass
+
+On fait le mini tuto de base de [mongo](https://www.mongodb.com/what-is-mongodb).
