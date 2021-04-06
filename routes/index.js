@@ -84,6 +84,7 @@ const parallel = async function(db, client) {
     ,insertDocuments(db, 2)
     ,insertDocuments(db, 3)
     ,insertDocuments(db, 4)
+    ,aggregateDocuments(db)
   ]);
 
   console.log('fin parallel() et clôture du client');
@@ -131,6 +132,36 @@ async function insertDocuments (db, identifiant) {
   console.log(`fin insertDocuments() n° ${identifiant}`);
   
   return result
+}
+
+///--- Exemple 3
+// TODO: Tester sur onglet Aggregation sur compass, bizoux
+// lire un peu wesh
+//    https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/
+//    https://docs.mongodb.com/manual/aggregation/
+async function aggregateDocuments (db) {
+  const collection = db.collection('ma_super_collection')
+
+  console.log(`debut aggregateDocuments()`);
+
+  const results = await collection.aggregate([
+    {
+      $match: {
+        gender: 'Male'
+      }
+    },
+    {
+      $group: {
+        _id: '$gender',
+        count: { $id: 1 }
+      }
+    }
+  ])
+
+  console.log(`fin aggregateDocuments()`);
+  console.log(results);
+
+  return results
 }
 
 /* GET home page. */
