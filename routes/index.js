@@ -62,23 +62,46 @@ client.connect(function(err) {
 
   const db = client.db(dbName);
 
-  // Test ajout de document
-  insertDocuments(db, client);
-
-  // Attention a l'asynchrone, ne pas fermer la connexion avant l'ajout dans la bdd
-  // client.close();
+  // Peut importe nos requêtes
+  // On les gère en parrallèle : On les lance toutes en même temps
+  // Une fois que tout est fini, on ferme le flux/la connexion
+  parallel(db, client);
 });
 
 /// ----
 
+//    https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Statements/async_function#exemple_simple
+//      `-> Ctrl + F > "var parallel" 
+
+
+const parallel = async function(db, client) {
+  console.log('==Exécution parallèle avec await Promise.all==');
+
+  // Démarre 2 tâches en parallèle et on attend que les deux soient finies
+  //  https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+  await Promise.all([
+    insertDocuments(db, 1)
+    ,insertDocuments(db, 2)
+    ,insertDocuments(db, 3)
+    ,insertDocuments(db, 4)
+  ]);
+
+  console.log('fin parallel() et clôture du client');
+  // Attention a l'asynchrone, ne pas fermer la connexion avant l'ajout dans la bdd
+  client.close();
+}
+
+
 //// Test ajout document
 //      https://www.mongodb.com/what-is-mongodb >> etape 2 / Insert a document
 
-async function insertDocuments (db, client) {
+async function insertDocuments (db, identifiant) {
   // Get the documents collection
   // /!\ ATTENTION /!\ / Pas d'espaces devant derrière le nom de la collection
   const collection = db.collection('ma_super_collection')
   
+  console.log(`début insertDocuments() n° ${identifiant}`);
+
   // Insert some documents
   const result = await collection.insertMany([
       // {
@@ -104,10 +127,9 @@ async function insertDocuments (db, client) {
         "ma_bonne_dope":"nasal"
       }
   ])
-  
-  // Attention a l'asynchrone, ne pas fermer la connexion avant l'ajout dans la bdd
-  client.close();
 
+  console.log(`fin insertDocuments() n° ${identifiant}`);
+  
   return result
 }
 
