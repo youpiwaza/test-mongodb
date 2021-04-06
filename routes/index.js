@@ -62,10 +62,54 @@ client.connect(function(err) {
 
   const db = client.db(dbName);
 
-  client.close();
+  // Test ajout de document
+  insertDocuments(db, client);
+
+  // Attention a l'asynchrone, ne pas fermer la connexion avant l'ajout dans la bdd
+  // client.close();
 });
 
 /// ----
+
+//// Test ajout document
+//      https://www.mongodb.com/what-is-mongodb >> etape 2 / Insert a document
+
+async function insertDocuments (db, client) {
+  // Get the documents collection
+  // /!\ ATTENTION /!\ / Pas d'espaces devant derrière le nom de la collection
+  const collection = db.collection('ma_super_collection')
+  
+  // Insert some documents
+  const result = await collection.insertMany([
+      // {
+      //     name: 'Sun Bakery Trattoria',
+      //     stars: 4,
+      //     categories: [
+      //         'Pizza', 'Pasta', 'Italian', 'Coffee', 'Sandwiches'
+      //     ]
+      // }, {
+      //     name: 'Blue Bagels Grill',
+      //     stars: 3,
+      //     categories: [
+      //         'Bagels', 'Cookies', 'Sandwiches'
+      //     ]
+      // }
+      {
+        "id":1000,
+        "first_name":"test- mon test a mwa 2",
+        "last_name":"Frith",
+        "email":"pfrith0@tinypic.com",
+        "gender":"Genderqueer",
+        "ip_address":"203.252.104.99",
+        "ma_bonne_dope":"nasal"
+      }
+  ])
+  
+  // Attention a l'asynchrone, ne pas fermer la connexion avant l'ajout dans la bdd
+  client.close();
+
+  return result
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
