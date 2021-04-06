@@ -47,7 +47,10 @@ const url = 'mongodb://localhost:27017';
 // Database Name
 const dbName = 'admin';
 // Enlever le warning deprecated
-//    trace terminal : [MONGODB DRIVER] Warning: Current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+//    trace terminal : [MONGODB DRIVER] Warning: Current Server Discovery and
+//      Monitoring engine is deprecated, and will be removed in a future version.
+//      To use the new Server Discover and Monitoring engine,
+//      pass option { useUnifiedTopology: true } to the MongoClient constructor.
 // On spécifie une option lors de la connexion
 const client = new MongoClient(url, { useUnifiedTopology: true });
 // Use connect method to connect to the server
