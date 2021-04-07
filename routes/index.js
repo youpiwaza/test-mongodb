@@ -157,11 +157,10 @@ async function findDocuments (db) {
     // // KO / Deuxième paramètre, un objet, Choix des champs à renvoyer (~SELECT en SQL)
     // // Deuxième paramètre, un objet, options à passer à find, cf.
     // //     http://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#find
-    ,
     //  🚨mongo native 3.6, pas mongo 14
     // KO / { first_name: 1, last_name: 1 } // KO / Renvoie uniquement les champs voulus
     // KO / { first_name: 0, last_name: 0 } // KO / Exclure les champs voulus
-    { 
+    ,{ 
       limit : 3,                           // Renvoyer 3 résultats maximum
       // // Choix des colonnes afficher
       //    https://docs.mongodb.com/manual/reference/method/db.collection.find/#specify-the-fields-to-return
