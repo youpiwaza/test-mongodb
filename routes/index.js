@@ -168,14 +168,14 @@ async function findDocuments (db) {
       // // 0 > On empeche/ On exclue l'affichage
       // // On affiche uniquement nom/prenom
       projection: { 
-        "first_name":1,
-        "last_name": 1,
-        "_id": 0, // forcer l'exclusion de la colonne _id
+        "first_name":1
+        ,"last_name": 1
+        ,"_id": 0 // forcer l'exclusion de la colonne _id
       }
       // // tous les champs sauf prenom/nom de famille
       // projection: { 
-      //   "first_name":0,
-      //   "last_name": 0,
+      //   "first_name":0
+      //   ,"last_name": 0
       // }
     }
   ).toArray()
