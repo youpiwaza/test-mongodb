@@ -161,7 +161,24 @@ async function findDocuments (db) {
     //  🚨mongo native 3.6, pas mongo 14
     // KO / { first_name: 1, last_name: 1 } // KO / Renvoie uniquement les champs voulus
     // KO / { first_name: 0, last_name: 0 } // KO / Exclure les champs voulus
-    { limit : 3 }                           // Renvoyer 3 résultats maximum
+    { 
+      limit : 3,                           // Renvoyer 3 résultats maximum
+      // // Choix des colonnes afficher
+      //    https://docs.mongodb.com/manual/reference/method/db.collection.find/#specify-the-fields-to-return
+      // // 1 > On force l'affichage
+      // // 0 > On empeche/ On exclue l'affichage
+      // // On affiche uniquement nom/prenom
+      projection: { 
+        "first_name":1,
+        "last_name": 1,
+        "_id": 0, // forcer l'exclusion de la colonne _id
+      }
+      // // tous les champs sauf prenom/nom de famille
+      // projection: { 
+      //   "first_name":0,
+      //   "last_name": 0,
+      // }
+    }
   ).toArray()
 
   console.log('Found the following records')
