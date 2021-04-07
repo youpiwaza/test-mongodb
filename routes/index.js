@@ -84,7 +84,7 @@ const parallel = async function(db, client) {
     ,insertDocuments(db, 2)
     ,insertDocuments(db, 3)
     ,insertDocuments(db, 4)
-    ,aggregateDocuments(db)
+    // ,aggregateDocuments(db)
   ]);
 
   console.log('fin parallel() et clôture du client');
@@ -99,7 +99,7 @@ const parallel = async function(db, client) {
 async function insertDocuments (db, identifiant) {
   // Get the documents collection
   // /!\ ATTENTION /!\ / Pas d'espaces devant derrière le nom de la collection
-  const collection = db.collection('ma_super_collection')
+  const collection = db.collection('users')
   
   console.log(`début insertDocuments() n° ${identifiant}`);
 
@@ -125,6 +125,7 @@ async function insertDocuments (db, identifiant) {
         "email":"pfrith0@tinypic.com",
         "gender":"Genderqueer",
         "ip_address":"203.252.104.99",
+        "age":"102",
         "ma_bonne_dope":"nasal"
       }
   ])
@@ -136,30 +137,45 @@ async function insertDocuments (db, identifiant) {
 
 ///--- Exemple 3
 // TODO: Tester sur onglet Aggregation sur compass, bizoux
+//          >> Des trucs s'affichent, mais ne correspondent pas, cf. image
+//          >> id:76 count:2 mais 9 personnes ont 76 ans
+// TODO: Comprendre :'(
+
 // lire un peu wesh
 //    https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/
 //    https://docs.mongodb.com/manual/aggregation/
+//    Manque d'affichage ? curseur ?
+//      https://docs.mongodb.com/manual/tutorial/iterate-a-cursor/
 async function aggregateDocuments (db) {
-  const collection = db.collection('ma_super_collection')
+  const collection = db.collection('users')
 
   console.log(`debut aggregateDocuments()`);
 
   const results = await collection.aggregate([
     {
       $match: {
-        gender: 'Male'
+        gender: 'Female'
       }
     },
     {
       $group: {
-        _id: '$gender',
-        count: { $id: 1 }
+        _id: '$age',
+        count: { $sum: 1 }
       }
     }
   ])
 
   console.log(`fin aggregateDocuments()`);
   console.log(results);
+
+  //// Gestion de l'affichage ?
+  //      KO / https://docs.mongodb.com/manual/tutorial/iterate-a-cursor/
+  // while (myCursor.hasNext()) {
+  //   print(tojson(myCursor.next()));
+  // }
+  // while (results.hasNext()) {
+  //   console.log(results.next());
+  // }
 
   return results
 }
