@@ -86,6 +86,7 @@ const parallel = async function(db, client) {
     ,insertDocuments(db, 4)
     ,findDocuments(db)
     // ,aggregateDocuments(db)
+    ,addIndexToCollection(db)
   ]);
 
   console.log('fin parallel() et clôture du client');
@@ -187,6 +188,26 @@ async function findDocuments (db) {
 
   return docs
 }
+
+
+
+////--- Exemple 4 / Create index
+async function addIndexToCollection (db) {
+  console.log(`début addIndexToCollection()`);
+
+  const collection = db.collection('users')
+
+  const result = await collection.createIndex({
+    first_name: 1
+    ,last_name: 1
+  })
+
+  console.log(`addIndexToCollection() > result`, result);
+  console.log(`fin addIndexToCollection()`);
+
+  return result
+}
+
 
 
 ////--- Exemple 5 / Aggregation
