@@ -141,6 +141,8 @@ async function insertDocuments (db, identifiant) {
 //    NON🚨 / https://docs.mongodb.com/manual/reference/method/db.collection.find/
 //    OUI   / http://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#find
 async function findDocuments (db) {
+  console.log(`début findDocuments()`);
+
   const collection = db.collection('users')
 
   const docs = await collection.find(
@@ -164,6 +166,8 @@ async function findDocuments (db) {
 
   console.log('Found the following records')
   console.log(docs)
+  
+  console.log(`fin findDocuments()`);
 
   return docs
 }
