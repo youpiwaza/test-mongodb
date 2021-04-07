@@ -84,6 +84,7 @@ const parallel = async function(db, client) {
     ,insertDocuments(db, 2)
     ,insertDocuments(db, 3)
     ,insertDocuments(db, 4)
+    ,findDocuments(db)
     // ,aggregateDocuments(db)
   ]);
 
@@ -93,7 +94,7 @@ const parallel = async function(db, client) {
 }
 
 
-//// Test ajout document
+//// Exemple 2 / Insert a document
 //      https://www.mongodb.com/what-is-mongodb >> etape 2 / Insert a document
 
 async function insertDocuments (db, identifiant) {
@@ -135,7 +136,40 @@ async function insertDocuments (db, identifiant) {
   return result
 }
 
-///--- Exemple 3
+
+////--- Exemple 3 / Create a query
+//    NON🚨 / https://docs.mongodb.com/manual/reference/method/db.collection.find/
+//    OUI   / http://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#find
+async function findDocuments (db) {
+  const collection = db.collection('users')
+
+  const docs = await collection.find(
+    // // Premier paramètre, un objet, afin de trier (~= WHERE en SQL)
+    
+    // {}                                       // Pas de critère, on renvoie tout
+    // { id: 69 }                               // Propriété exacte
+    // { first_name:"Barri", last_name:"Hew" }  // PropriétéS exactes
+    // { id: { $in: [ 10, 15, 25, 38 ] } }      // Proriété parmis un ensemble
+    { age: { $gt: 90 } }                     // Toutes les personnes de plus de 90 ans
+
+    // // KO / Deuxième paramètre, un objet, Choix des champs à renvoyer (~SELECT en SQL)
+    // // Deuxième paramètre, un objet, options à passer à find, cf.
+    // //     http://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#find
+    ,
+    //  🚨mongo native 3.6, pas mongo 14
+    // KO / { first_name: 1, last_name: 1 } // KO / Renvoie uniquement les champs voulus
+    // KO / { first_name: 0, last_name: 0 } // KO / Exclure les champs voulus
+    { limit : 3 }                           // Renvoyer 3 résultats maximum
+  ).toArray()
+
+  console.log('Found the following records')
+  console.log(docs)
+
+  return docs
+}
+
+
+////--- Exemple 5 / Aggregation
 // TODO: Tester sur onglet Aggregation sur compass, bizoux
 //          >> Des trucs s'affichent, mais ne correspondent pas, cf. image
 //          >> id:76 count:2 mais 9 personnes ont 76 ans

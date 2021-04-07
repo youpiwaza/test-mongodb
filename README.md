@@ -14,6 +14,8 @@ On part de [express-generator](https://expressjs.com/fr/starter/generator.html) 
 
 On fait le mini tuto de base de [mongo](https://www.mongodb.com/what-is-mongodb).
 
+🚨 **Important** 🚨 : On travaille sur le portage (npm > js) de mongo, la "vraie" doc est [la](http://mongodb.github.io/node-mongodb-native/3.6/quick-start/quick-start/).
+
 ## Doc
 
 - [Package npm mongodb](https://www.npmjs.com/package/mongodb)
