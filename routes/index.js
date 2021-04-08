@@ -56,7 +56,7 @@ const client = new MongoClient(url, { useUnifiedTopology: true });
 // Use connect method to connect to the server
 client.connect(function(err) {
   // Deprecated
-  // assert.equal(null, err);
+  // assert.equal(null, err); 
   assert.strictEqual(null, err);
   console.log('Connected successfully to server');
 
@@ -85,8 +85,8 @@ const parallel = async function(db, client) {
     ,insertDocuments(db, 3)
     ,insertDocuments(db, 4)
     ,findDocuments(db)
-    // ,aggregateDocuments(db)
     ,addIndexToCollection(db)
+    // ,aggregateDocuments(db)
   ]);
 
   console.log('fin parallel() et clôture du client');
@@ -211,12 +211,13 @@ async function addIndexToCollection (db) {
 
 
 ////--- Exemple 5 / Aggregation
+// Tester avec la vraie doc : http://mongodb.github.io/node-mongodb-native/3.6/tutorials/aggregation/
 // TODO: Tester sur onglet Aggregation sur compass, bizoux
 //          >> Des trucs s'affichent, mais ne correspondent pas, cf. image
 //          >> id:76 count:2 mais 9 personnes ont 76 ans
 // TODO: Comprendre :'(
 
-// lire un peu wesh
+// KO / ?
 //    https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/
 //    https://docs.mongodb.com/manual/aggregation/
 //    Manque d'affichage ? curseur ?
